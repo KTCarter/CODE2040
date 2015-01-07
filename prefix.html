@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+<div class="container">
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+var token ={
+	"token"  : "wUzjm9v1xy"
+}
+getDict(token);
+function getDict(token){
+	$.ajax({
+		type: "POST",
+		url: "http://challenge.code2040.org/api/prefix",
+		data: JSON.stringify(token)
+	}).done(function(data){
+		sendback(removePrefix(data));	
+	});
+
+		
+	function removePrefix(dataIn){
+		var noPref = [];
+		var initialArr = dataIn.result.array;
+		
+		for(var i = 0; i < initialArr.length; i++){
+			if (!(initialArr[i].substring(0,3) == dataIn.result.prefix)){			
+				noPref.push(initialArr[i]);			
+			}//if
+		}//for
+		return noPref;
+	}//removePrefix
+		
+		
+	function sendback(noPref){
+		$.ajax({
+			type: "POST",
+			url: "http://challenge.code2040.org/api/validateprefix",
+			data: JSON.stringify({
+				"token" : "wUzjm9v1xy",
+				"array" : noPref
+			})
+		});
+	}//sendBack	
+}//getDict
+</script>
+
+</body>
+</html>

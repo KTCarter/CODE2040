@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<div class="container">
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+	getToken(getRevString);
+	function getToken(callback){
+		var user = {
+			email:"car8@umbc.edu", github : "https://github.com/KTCarter"
+		};
+		
+		$.ajax({
+			type: "POST",
+			url: "http://challenge.code2040.org/api/register",
+			data: JSON.stringify(user)
+		}).done(function(data){
+			callback(data.result);
+		});//.done
+	}//getToken
+
+	function getRevString(token){
+		$.ajax({
+		  type: "POST",
+		  url: "http://challenge.code2040.org/api/getstring",
+		  data: JSON.stringify({"token" : token})
+		}).done(function(data){
+			sendBack(reverseString(data));
+			
+		});
+	
+		//Decrementing for loop. Starts at the end of the string
+		//and appends each character until it reaches the beginning.
+		function reverseString(stringIn){
+			var revOrder = '';
+			
+			if (stringIn.result){
+				for (var i = stringIn.result.length - 1; i >= 0; i--){
+					revOrder += stringIn.result[i];
+				}
+				return revOrder;	
+			}
+		}//reverseString
+		
+		function sendBack(revOrder){
+			$.ajax({
+				type: "POST",
+				url: "http://challenge.code2040.org/api/validatestring",
+				data: JSON.stringify({
+					"token" : "wUzjm9v1xy",
+					"string" : revOrder
+				})
+			});
+		}//sendBack
+	}//getRevString
+</script>
+	
+</body>
+</html>

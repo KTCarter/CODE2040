@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+<div class="container">
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+
+
+var token ={
+	"token"  : "wUzjm9v1xy"
+}
+getHaystack(token);
+function getHaystack(token){
+	$.ajax({
+		type: "POST",
+		url: "http://challenge.code2040.org/api/haystack",
+		data: JSON.stringify(token)
+	}).done(function(data){
+		sendback(findNeedle(data));	
+	});
+	
+	function findNeedle(dataIn){
+		var found = '';
+		found = dataIn.result.haystack.indexOf(dataIn.result.needle);
+		return found;
+	}//findNeedle
+	
+	function sendback(found){
+		$.ajax({
+			type: "POST",
+			url: "http://challenge.code2040.org/api/validateneedle",
+			data: JSON.stringify({
+				"token" : "wUzjm9v1xy",
+				"needle" : found
+			})
+		});
+	}//sendBack	
+}//getHaystack
+
+</script>
+</body>
+</html>

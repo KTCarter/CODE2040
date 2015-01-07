@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+<div class="container">
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+var token ={
+	"token"  : "wUzjm9v1xy"
+}
+getDict(token);
+function getDict(token){
+	$.ajax({
+		type: "POST",
+		url: "http://challenge.code2040.org/api/time",
+		data: JSON.stringify(token)
+	}).done(function(data){
+		sendback(addInterval(data.result.datestamp, data.result.interval));	
+	});
+	
+	function addInterval(dateStampIn, intervalIn){
+		var date = new Date(dateStampIn);
+		date.setSeconds(date.getSeconds() + intervalIn);
+		return date.toISOString();
+	}//addInterval
+
+	function sendback(ISOIn){
+		$.ajax({
+			type: "POST",
+			url: "http://challenge.code2040.org/api/validatetime",
+			data: JSON.stringify({
+				"token" : "wUzjm9v1xy",
+				"datestamp" : ISOIn
+			})
+		});
+	}//sendBack	
+}//getDict
+</script>
+
+</body>
+</html>
