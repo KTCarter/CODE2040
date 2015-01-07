@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+	<p>Hey</p>
+
+	<divclass="container">
+	</div>
+	<script>
+		var send = {
+			email:"car8@umbc.edu", github : "https://github.com/KTCarter"
+		}
+
+			$.ajax({
+			  type: "POST",
+			  url: "http://challenge.code2040.org/api/register",
+			  data: JSON.stringify(send)
+			});
+	</script>
+</body>
+</html>
